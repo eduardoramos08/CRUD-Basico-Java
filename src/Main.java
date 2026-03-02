@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 public class Main {
@@ -104,22 +105,10 @@ public class Main {
             return;
         }
         listarTurmasIndiceSigla();
-        String opcao = Leitura.dados("\nDigite o número da turma que deseja excluir: ");
-        int opcaoValida = -1;
-        int opcaoUsuario = -1;
-        while (opcaoValida==-1){
-            opcaoUsuario = validarOpcaoExcluir(opcao);
-
-            if (opcaoUsuario==-1) {
-                System.out.println("Opção inválida! Digite novamente: ");
-                opcao = Leitura.dados("Digite o número da turma que deseja excluir: ");
-            } else {
-                opcaoValida = opcaoUsuario;
-            }
-        }
+        int idExcluir = validaIdTurma();
         if (confirmaExclusao()){
 //            listaTurmas.remove(opcaoUsuario);
-            listaTurmas.get(opcaoUsuario).setAtivo(false);
+            listaTurmas.get(idExcluir).setAtivo(false);
             System.out.println("Turma excluída com sucesso!");
         }
     }
@@ -149,7 +138,7 @@ public class Main {
         }
     }
 
-    private static int validarOpcaoExcluir(String opcao) {
+    private static int validarItemLista(String opcao) {
         if (opcao.isBlank()) return -1;
 
         int opcaoNumero = -1;
@@ -173,6 +162,50 @@ public class Main {
     }
 
     private static void atualizarTurma() {
+        if(isVazio(listaTurmas)) {
+            System.out.println("Não há turmas cadastradas");
+            return;
+        }
+        listarTurmasIndiceSigla();
+        int idAtualizar = validaIdTurma();
+
+        System.out.printf("O periodo atual é:  %s", listaTurmas.get(idAtualizar).getPeriodo());
+
+        while (true) {
+            String opcaoPeriodo = Leitura.dados(" Deseja modificar o periodo? (S/N)").toUpperCase();
+
+            switch (opcaoPeriodo) {
+                case "S":
+//                Periodo periodo = validarPeriodo();
+//                Periodo periodo = validarPeriodo();
+                    listaTurmas.get(idAtualizar).setPeriodo(validarPeriodo());
+                    break;
+                case "N":
+                    break;
+                default:
+                    System.out.println("Opção invalida! Escolha S para SIM ou N para NÂo");
+                    continue;
+            }
+            break;
+        }
+    }
+
+    private static int validaIdTurma() {
+        String opcao = Leitura.dados("\nDigite o número da turma que desejada: ");
+        int opcaoValida = -1;
+        int opcaoUsuario = -1;
+        while (opcaoValida==-1){
+            opcaoUsuario = validarItemLista(opcao);
+
+            if (opcaoUsuario==-1) {
+                System.out.println("Opção inválida! Digite novamente: ");
+                opcao = Leitura.dados("Digite o número da turma que desejada: ");
+            } else {
+                opcaoValida = opcaoUsuario;
+            }
+        }
+        return opcaoValida;
+
     }
 
     private static void cadastrarTurma() {
