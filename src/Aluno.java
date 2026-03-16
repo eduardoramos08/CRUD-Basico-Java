@@ -31,5 +31,12 @@ public class Aluno {
     public boolean isAtivo(){return this.ativo;}
     public void setAtivo(boolean ativo){this.ativo = ativo;}
 
-
+    @Override
+    public String toString() {
+        return "Aluno{" +
+                "nome='" + nome + '\'' +
+                ", dataNascimento=" + dataNascimento +
+                ", turma=" + turma +
+                '}';
+    }
 }

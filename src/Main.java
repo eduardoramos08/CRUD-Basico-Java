@@ -130,16 +130,22 @@ public class Main {
         String nome = validarNome();
         LocalDate dataNascimento = validarDataNascimento();
         Turma turma = validarTurma();
+
+        Aluno aluno = new Aluno(nome, dataNascimento, turma);
+        listaAlunos.add(aluno);
     }
 
     private static Turma validarTurma() {
-        listarTurmasIndiceSigla();
+        System.out.println("\nLista das Turmas:");
 
-        int idExcluir = validaIdTurma();
-        System.out.println(idExcluir);
+        for(int i = 0; i < listaTurmas.size(); ++i) {
+            if (((Turma)listaTurmas.get(i)).isAtivo()) {
+                System.out.printf("\n%d - %s", i + 1, ((Turma)listaTurmas.get(i)).getSigla());
+            }
+        }
 
-
-        return validarTurma();
+        int index = validaIdTurma();
+        return listaTurmas.get(index);
     }
 
     private static LocalDate validarDataNascimento() {
@@ -148,7 +154,7 @@ public class Main {
 
         while (true) {
             try {
-                String input = Leitura.dados("Digite a data de nascimento do aluno(dd/MM/yyyy): ");
+                String input = Leitura.dados("Digite a data de nascimento do aluno (dd/MM/yyyy): ");
                 dataNascimentoAluno = LocalDate.parse(input, dataFormatada);
 
                 LocalDate dataHoje = LocalDate.now();
@@ -164,9 +170,27 @@ public class Main {
                 }
                 return dataNascimentoAluno;
             }catch (DateTimeParseException e){
-                System.out.println("Data Invalida! Digite novamente no formato dd/MM/yyyy.");
+                System.out.println("Digite uma data de nascimento valida!");
             }
         }
+        //String opcao = Leitura.dados("\nDigite o número da turma desejada: ");
+        //int opcaoValida = -1;
+        //int opcaoUsuario = -1;
+
+        //while(opcaoValida == -1) {
+        //    opcaoUsuario = validarItemLista(opcao);
+        //    if (opcaoUsuario == -1) {
+        //        System.out.println("Opção inválida! Digite novamente: ");
+        //        opcao = Leitura.dados("Digite o número da turma desejada: ");
+        //    } else {
+                opcaoValida = opcaoUsuario;
+        //    }
+        //}
+
+        //return opcaoValida;
+
+
+
     }
 
 
@@ -298,7 +322,6 @@ public class Main {
                 System.out.printf("\n%d - %s", i + 1, ((Turma)listaTurmas.get(i)).getSigla());
             }
         }
-
     }
 
     private static void atualizarParcial(String atributo, int idAtualizar) {
