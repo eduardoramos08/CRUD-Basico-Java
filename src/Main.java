@@ -240,6 +240,18 @@ public class Main {
 
 
     private static void excluirAluno() {
+        if (isVazioAlunos(listaAlunos)) {
+            System.out.println("Não há alunos cadastradas");
+        } else {
+            listarAlunosIndiceSigla();
+            int idExcluir = validaIdTurma();
+            if (confirmaExclusao()) {
+                ((Aluno)listaAlunos.get(idExcluir)).setAtivo(false);
+                System.out.println("Aluno excluído com sucesso!");
+            }
+
+        }
+
     }
 
     private static void listarTurmas() {
